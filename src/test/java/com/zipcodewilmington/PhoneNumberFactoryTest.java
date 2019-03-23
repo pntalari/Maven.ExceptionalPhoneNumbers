@@ -10,6 +10,8 @@ import org.junit.Test;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static com.zipcodewilmington.phone.PhoneNumberFactory.createPhoneNumberSafely;
+
 /**
  * Created by leon on 5/9/17.
  */
@@ -21,42 +23,42 @@ public class PhoneNumberFactoryTest {
     }
 
     @Test
-    public void testCreatePhoneNumberSafely() {
+    public void testCreatePhoneNumberSafely() throws InvalidPhoneNumberFormatException {
         // : Given
         int areaCode = 0;
         int centralOfficeCode = 0;
         int phoneLineCode = 0;
 
         // : When
-        PhoneNumber phoneNumber = PhoneNumberFactory.createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
+        PhoneNumber phoneNumber = createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
 
         // : Then
         Assert.assertEquals(null, phoneNumber);
     }
 
     @Test
-    public void testGetAreaCode() {
+    public void testGetAreaCode() throws InvalidPhoneNumberFormatException {
         // : Given
         Integer areaCode = 302;
         int centralOfficeCode = 312;
         int phoneLineCode = 5555;
 
         // : When
-        PhoneNumber phoneNumber = PhoneNumberFactory.createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
+        PhoneNumber phoneNumber = createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
 
         // : Then
         Assert.assertEquals(phoneNumber.getAreaCode(), areaCode.toString());
     }
 
     @Test
-    public void testGetCentralOfficeCode() {
+    public void testGetCentralOfficeCode() throws InvalidPhoneNumberFormatException {
         // : Given
         int areaCode = 302;
         Integer centralOfficeCode = 312;
         int phoneLineCode = 5555;
 
         // : When
-        PhoneNumber phoneNumber = PhoneNumberFactory.createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
+        PhoneNumber phoneNumber = createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
 
         // : Then
         Assert.assertEquals(phoneNumber.getCentralOfficeCode(), centralOfficeCode.toString());
@@ -64,21 +66,21 @@ public class PhoneNumberFactoryTest {
 
 
     @Test
-    public void testPhoneLineCode() {
+    public void testPhoneLineCode() throws InvalidPhoneNumberFormatException {
         // : Given
         int areaCode = 302;
         int centralOfficeCode = 312;
         Integer phoneLineCode = 5555;
 
         // : When
-        PhoneNumber phoneNumber = PhoneNumberFactory.createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
+        PhoneNumber phoneNumber = createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
 
         // : Then
         Assert.assertEquals(phoneNumber.getPhoneLineCode(), phoneLineCode.toString());
     }
 
     @Test
-    public void testCreateRandomPhoneNumber() {
+    public void testCreateRandomPhoneNumber() throws InvalidPhoneNumberFormatException {
         for (int i = 0; i < 999; i++) {
             // : Given
             // : When

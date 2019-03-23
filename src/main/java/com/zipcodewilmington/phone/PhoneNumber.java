@@ -16,7 +16,7 @@ public final class PhoneNumber {
     // non-default constructor is package-protected
     protected PhoneNumber(String phoneNumber) throws InvalidPhoneNumberFormatException {
         //validate phone number with format `(###)-###-####`
-        if (!phoneNumber.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}")) {
+        if (!formatCheck(phoneNumber)) {
             throw new InvalidPhoneNumberFormatException();
         }
         this.phoneNumberString = phoneNumber;
@@ -31,11 +31,18 @@ public final class PhoneNumber {
     }
 
     public String getPhoneLineCode() {
-        return toString().substring(10, 14);
+            return toString().substring(10, 14);
 }
 
     @Override
     public String toString() {
         return phoneNumberString;
+    }
+
+    public static Boolean formatCheck(String phoneNumber){
+        if(phoneNumber.matches("\\(\\d{3}\\)-\\d{3}-\\d{4}"))
+            return true;
+        else
+            return false;
     }
 }
