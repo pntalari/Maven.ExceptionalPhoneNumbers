@@ -3,6 +3,7 @@ package com.zipcodewilmington.phone;
 import com.zipcodewilmington.exceptions.InvalidPhoneNumberFormatException;
 
 import java.util.Random;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -23,8 +24,8 @@ public final class PhoneNumberFactory {
      */ //TODO - Implement logic
     public static PhoneNumber[] createRandomPhoneNumberArray(int phoneNumberCount) throws InvalidPhoneNumberFormatException {
         PhoneNumber[] phoneNumbers = new PhoneNumber[phoneNumberCount];
-        for (int i = 0; i <phoneNumberCount ; i++) {
-           phoneNumbers[i] = createRandomPhoneNumber();
+        for (int i = 0; i < phoneNumberCount; i++) {
+            phoneNumbers[i] = createRandomPhoneNumber();
         }
         return phoneNumbers;
     }
@@ -42,7 +43,7 @@ public final class PhoneNumberFactory {
 
         areaCode = min + random.nextInt(range + 1);
         centralOfficeCode = min + random.nextInt(range + 1);
-        phoneLineCode = min + random.nextInt((9999-1000) + 1);
+        phoneLineCode = 1000 + random.nextInt((9999 - 1000) + 1);
 
         return createPhoneNumberSafely(areaCode, centralOfficeCode, phoneLineCode);
     }
@@ -65,11 +66,14 @@ public final class PhoneNumberFactory {
         builder.append(phoneLineCode);
 
         String phoneNumber = builder.toString();
+        String logStr = phoneNumber + " is not a valid phone number";
         try {
             if (PhoneNumber.formatCheck(phoneNumber))
                 return createPhoneNumber(phoneNumber);
-            else
+            else {
+                logger.log(Level.SEVERE,logStr);
                 throw new InvalidPhoneNumberFormatException();
+            }
         } catch (Exception e) {
             return null;
         }
@@ -81,10 +85,12 @@ public final class PhoneNumberFactory {
      * @throws InvalidPhoneNumberFormatException - thrown if phoneNumberString does not match acceptable format
      */ // TODO - Add throws statement to method signature
     public static PhoneNumber createPhoneNumber(String phoneNumberString) throws InvalidPhoneNumberFormatException {
-        if (PhoneNumber.formatCheck(phoneNumberString))
+        if (PhoneNumber.formatCheck(phoneNumberString)) {
+            String logStr = "Attempting to create a new PhoneNumber object with a value of " + phoneNumberString;
+            logger.log(Level.INFO, logStr);
             return new PhoneNumber(phoneNumberString);
-        else
+        } else {
             throw new InvalidPhoneNumberFormatException();
-
+        }
     }
 }
